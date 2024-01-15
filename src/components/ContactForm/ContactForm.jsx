@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { nanoid } from 'nanoid';
 import css from './ContactForm.module.css';
-import { addContact } from '../../redux/contactSlice';
+import { addContact } from '../../redux/operation';
 import { getContacts } from '../../redux/selectors';
 
 const ContactForm = () => {

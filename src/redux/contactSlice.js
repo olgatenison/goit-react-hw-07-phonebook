@@ -1,28 +1,66 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { fetchContacts, addContact, deleteContact } from './operation';
+import {
+  handlePending,
+  handleRejected,
+  handleFulfilled,
+} from './contactsAction';
 
+// Початковий стан для slice contactsSlice
 const initialState = {
-  contacts: [
-    { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-    { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-    { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-    { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-  ],
+  contacts: {
+    items: [],
+    isLoading: false,
+    error: null,
+  },
+  filter: '',
 };
 
 export const contactsSlice = createSlice({
   name: 'contacts',
   initialState,
-  reducers: {
-    addContact: (state, { payload }) => {
-      state.contacts.push(payload);
-    },
-    deleteContact: (state, action) => {
-      state.contacts = state.contacts.filter(
-        item => item.id !== action.payload
-      );
-    },
+  extraReducers: builder => {
+    builder
+      .addCase(fetchContacts.pending, handlePending)
+      .addCase(fetchContacts.fulfilled, handleFulfilled)
+      .addCase(fetchContacts.rejected, handleRejected)
+      .addCase(addContact.pending, handlePending)
+      .addCase(addContact.fulfilled, handleFulfilled)
+      .addCase(addContact.rejected, handleRejected)
+      .addCase(deleteContact.pending, handlePending)
+      .addCase(deleteContact.fulfilled, handleFulfilled)
+      .addCase(deleteContact.rejected, handleRejected);
+
+    // builder
+    //   .addCase(fetchContacts.pending, handlePending)
+    //   .addCase(fetchContacts.fulfilled, (state, action) => {
+    //     state.error = null;
+    //     state.contacts = action.payload;
+    //   })
+    //   .addCase(fetchContacts.rejected, handleRejected)
+    //   .addCase(addContact.pending, handlePending)
+    //   .addCase(addContact.fulfilled, (state, action) => {
+    //     state.error = null;
+    //     state.contacts.push(action.payload);
+    //   })
+    //   .addCase(addContact.rejected, handleRejected)
+    //   .addCase(deleteContact.pending, handlePending)
+    //   .addCase(deleteContact.fulfilled, (state, action) => {
+    //     state.error = null;
+    //     const index = state.contacts.findIndex(
+    //       contact => contact.id === action.payload.id
+    //     );
+    //     state.contacts.splice(index, 1);
+    //   })
+    //   .addCase(deleteContact.rejected, handleRejected)
+    //   .addMatcher(action => action.type.endsWith('/pending'), handlePending)
+    //   .addMatcher(action => action.type.endsWith('/rejected'), handleRejected)
+    //   .addMatcher(
+    //     action => action.type.endsWith('/fulfilled'),
+    //     handleFulfilled
+    //   );
   },
 });
 
-export const { addContact, deleteContact } = contactsSlice.actions;
+// export const { addContact, deleteContact } = contactsSlice.actions;
 export const contactReducer = contactsSlice.reducer;

@@ -1,7 +1,8 @@
 import css from './ContactList.module.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteContact } from '../../redux/contactSlice';
+// import { deleteContact } from '../../redux/contactSlice';
 import { getContacts, getFilter } from '../../redux/selectors';
+import { deleteContact } from '../../redux/operation';
 
 const ContactList = () => {
   // Отримання контактів та фільтру зі стору
