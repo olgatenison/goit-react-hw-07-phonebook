@@ -20,22 +20,12 @@ export const contactsSlice = createSlice({
   name: 'contacts',
   initialState,
   extraReducers: builder => {
-    // builder
-    //   .addCase(fetchContacts.pending, handlePending)
-    //   .addCase(fetchContacts.fulfilled, handleFulfilled)
-    //   .addCase(fetchContacts.rejected, handleRejected)
-    //   .addCase(addContact.pending, handlePending)
-    //   .addCase(addContact.fulfilled, handleFulfilled)
-    //   .addCase(addContact.rejected, handleRejected)
-    //   .addCase(deleteContact.pending, handlePending)
-    //   .addCase(deleteContact.fulfilled, handleFulfilled)
-    //   .addCase(deleteContact.rejected, handleRejected);
-
     builder
       .addCase(fetchContacts.pending, handlePending)
       .addCase(fetchContacts.fulfilled, (state, action) => {
         state.error = null;
         state.contacts = action.payload;
+        console.log('State after fetchContacts.fulfilled:', state);
       })
       .addCase(fetchContacts.rejected, handleRejected)
       .addCase(addContact.pending, handlePending)
@@ -62,5 +52,4 @@ export const contactsSlice = createSlice({
   },
 });
 
-// export const { addContact, deleteContact } = contactsSlice.actions;
 export const contactReducer = contactsSlice.reducer;

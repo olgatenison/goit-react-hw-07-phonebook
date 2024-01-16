@@ -19,6 +19,10 @@ const App = () => {
   const isLoading = useSelector(selectIsLoading);
   const error = useSelector(selectError);
 
+  console.log('contacts:', contacts);
+  console.log('isLoading:', isLoading);
+  console.log('error:', error);
+
   useEffect(() => {
     dispatch(fetchContacts());
   }, [dispatch]);
@@ -32,9 +36,11 @@ const App = () => {
         <ContactForm />
         <Filter />
         <h2 className={css.title}>Contacts</h2>
+
         {isLoading && !error && <b>Request in progress...</b>}
         <ContactList />
-        {contacts.length > 0 ? (
+
+        {contacts && contacts.length > 0 ? (
           <Filter />
         ) : (
           <div>Your phonebook is empty. Add first contact!</div>
