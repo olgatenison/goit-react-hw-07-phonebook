@@ -9,30 +9,29 @@ const ContactForm = () => {
   const dispatch = useDispatch();
   const contacts = useSelector(getContacts);
 
-  // Функція, яка викликається при подачі форми
+  // Функция, которая вызывается при подаче формы
   const handleSubmit = evt => {
     evt.preventDefault();
+    const name = evt.target.elements.name.value;
+    const number = evt.target.elements.number.value;
 
-    // Створення нового контакту з отриманими даними та унікальним ідентифікатором
-    const newContact = {
-      id: nanoid(),
-      name: evt.target.elements.name.value,
-      number: evt.target.elements.number.value,
-    };
-
-    // Перевірка, чи контакт вже існує
+    // Проверка наличия контакта с таким же именем
     const isExist = contacts.find(
-      ({ name }) => name.toLowerCase() === newContact.name.toLowerCase()
+      contact => contact.name.toLowerCase() === name.toLowerCase()
     );
-    // Повідомлення, якщо контакт вже існує
     if (isExist) {
-      return alert(`${newContact.name} is already in contacts.`);
+      return alert(`${name} is already in contacts.`);
     }
 
-    // Передача нового контакту в store
+    // Создание нового контакта с полученными данными и уникальным идентификатором
+
+    const newContact = {
+      id: nanoid(),
+      name,
+      number,
+    };
     dispatch(addContact(newContact));
 
-    // Очищення стану після подачі форми
     evt.currentTarget.reset();
   };
 

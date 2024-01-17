@@ -13,11 +13,15 @@ const ContactList = () => {
     dispatch(fetchContacts());
   }, [dispatch]);
 
-  const filteredContacts = contacts?.items?.filter(contact =>
+  const filteredContacts = contacts?.filter(contact =>
     contact?.name?.toLowerCase().includes(filter.toLowerCase())
   );
 
   const handleDelete = id => dispatch(deleteContact(id));
+
+  if (!contacts) {
+    return <p className={css.txt}>Loading contacts...</p>;
+  }
 
   if (!filteredContacts?.length) {
     return <p className={css.txt}>No contacts found.</p>;
@@ -25,19 +29,20 @@ const ContactList = () => {
 
   return (
     <div>
+      {console.log('Filtered Contacts:', filteredContacts)}
       <ul className={css.ul}>
-        {filteredContacts.map(contact => (
-          <li key={contact.id} className={css.item}>
+        {filteredContacts.map(({ id, name, phone }) => (
+          <li key={id} className={css.item}>
             <p className={css.txt}>
-              <span className={css.name}>{contact.name}: </span>
-              {contact.number}
+              <span className={css.name}>{name}: </span>
+              {phone}
             </p>
 
             <button
               className={css.btn}
               type="button"
               name="delete"
-              onClick={() => handleDelete(contact.id)}
+              onClick={() => handleDelete(id)}
             >
               delete
             </button>

@@ -6,14 +6,10 @@ import {
   handleFulfilled,
 } from './contactsAction';
 
-// Початковий стан для slice contactsSlice
 const initialState = {
-  contacts: {
-    items: [],
-    isLoading: false,
-    error: null,
-  },
-  filter: '',
+  items: [], // Исправленная структура состояния
+  isLoading: false,
+  error: null,
 };
 
 export const contactsSlice = createSlice({
@@ -21,28 +17,21 @@ export const contactsSlice = createSlice({
   initialState,
   extraReducers: builder => {
     builder
-      .addCase(fetchContacts.pending, handlePending)
       .addCase(fetchContacts.fulfilled, (state, action) => {
         state.error = null;
-        state.contacts = action.payload;
-        console.log('State after fetchContacts.fulfilled:', state);
+        state.items = action.payload;
       })
-      .addCase(fetchContacts.rejected, handleRejected)
-      .addCase(addContact.pending, handlePending)
       .addCase(addContact.fulfilled, (state, action) => {
         state.error = null;
-        state.contacts.push(action.payload);
+        state.items.push(action.payload);
       })
-      .addCase(addContact.rejected, handleRejected)
-      .addCase(deleteContact.pending, handlePending)
       .addCase(deleteContact.fulfilled, (state, action) => {
         state.error = null;
-        const index = state.contacts.findIndex(
+        const index = state.items.findIndex(
           contact => contact.id === action.payload.id
         );
-        state.contacts.splice(index, 1);
+        state.items.splice(index, 1);
       })
-      .addCase(deleteContact.rejected, handleRejected)
       .addMatcher(action => action.type.endsWith('/pending'), handlePending)
       .addMatcher(action => action.type.endsWith('/rejected'), handleRejected)
       .addMatcher(

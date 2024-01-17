@@ -15,9 +15,10 @@ import {
 
 const App = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(getContacts);
   const isLoading = useSelector(selectIsLoading);
   const error = useSelector(selectError);
+  const contacts = useSelector(getContacts);
+  // const filter = useSelector(getFilter);
 
   console.log('contacts:', contacts);
   console.log('isLoading:', isLoading);
