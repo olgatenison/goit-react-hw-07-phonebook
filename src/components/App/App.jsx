@@ -35,17 +35,15 @@ const App = () => {
       <div className={css.wrapper}>
         <h1 className={css.title}>Phonebook</h1>
         <ContactForm />
-        <Filter />
-        <h2 className={css.title}>Contacts</h2>
-
-        {isLoading && !error && <b>Request in progress...</b>}
-        <ContactList />
-
         {contacts && contacts.length > 0 ? (
           <Filter />
         ) : (
           <div>Your phonebook is empty. Add first contact!</div>
         )}
+        <h2 className={css.title}>Contacts</h2>
+
+        {isLoading && !error && <b>Request in progress...</b>}
+        <ContactList />
       </div>
     </>
   );
